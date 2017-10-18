@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load mptt_tags %}
+
+{% block title_block %}
+    Category - {{ category.name }}
+{% endblock %}
+
+{% block body_block %}
+    {% if category %}
+        <h4>{{ category.name }}</h4>
+        <ul class="root">
+            {% recursetree categories %}
+                <li>
+                    {{ node.name }}
+                    {% if not node.is_parent_node %}
+                        <ul class="children">
+                            {{ children }}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endrecursetree %}
+        </ul>
+        <h5>Articles:</h5>
+        {% if articles %}
+            {% for article in articles %}
+                <a href="/article/show/{{ article.slug }}">{{ article.name }}</a>
+            {% endfor %}
+        {% else %}
+            Here are no articles.
+        {% endif %}
+        <br>
+        <br>
+        <h5>Recipes:</h5>
+        {% if recipes %}
+            {% for recipe in recipes %}
+                <a href="/recipe/show/{{ recipe.slug }}">{{ recipe.name }}</a>
+            {% endfor %}
+        {% else %}
+            Here are no recipes.
+        {% endif %}
+    {% else %}
+    Here are no categories.
+    {% endif %}
+    <br><br>
+    <h5><a href="/category/change/{{ category.slug }}">Change</a></h5>
+{% endblock %}

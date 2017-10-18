@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title_block %}
+    Change article
+{% endblock %}
+
+{% block body_block %}
+    <form id="article_form" method="post" action="/article/change/{{ article.slug }}/">
+        {% csrf_token %}
+        <p>{{ errors }}</p>
+        <div class="form-group">
+            <label for="name">Name: </label>
+            <input id="name" class="form-control" title="Name" type="text" name="name" value="{{ article.name }}"><br>
+        </div>
+        <div class="form-group">
+            <label for="category">Category: </label>
+            <select id="category" class="form-control" title="Category" class="" name="category">
+                {% for category in categories %}
+                    {% if article.category.name == category.name %}
+                        <option selected value="{{ category.name }}">{{ category.name }}</option>
+                    {% else %}
+                        <option value="{{ category.name }}">{{ category.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+           <label for="about">About: </label>
+            <textarea id="about" class="form-control" title="About" name="about">{{ article.about }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="article">Article: </label>
+            <textarea id="article" class="form-control" title="Article" name="article">{{ article.article }}</textarea>
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="submit" name="submit" value="Change">
+        </div>
+    </form>
+    <form id="article_form" method="post" action="{% url 'delete_article' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <input class="form-control" type="hidden" name="article_slug" value="{{ article.slug }}">
+            <input class="form-control" type="submit" name="submit" value="Delete">
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load mptt_tags %}
+
+{% block title_block %}
+    Categories
+{% endblock %}
+
+{% block body_block %}
+    <h4>Categories</h4>
+    <a href="{% url 'create_category' %}">Create new category</a><br>
+    {% if categories %}
+    <ul class="list-group">
+        {% recursetree categories %}
+            <li><a href="/category/show/{{ node.slug }}">{{ node.name }}</a>
+
+                {% if not node.is_leaf_node %}
+                    <ul class="children">
+                        {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endrecursetree %}
+    </ul>
+    {% else %}
+    Here are no categories.
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load mptt_tags %}
+
+{% block title_block %}
+    Recipe - {{ recipe.name }}
+{% endblock %}
+
+{% block body_block %}
+    {% if recipe %}
+        <br>
+        <h4>{{ recipe.name }}</h4>
+        <h6>Recipe:</h6>
+        <p>{{ recipe.recipe}}</p><br>
+        <h6>Categories:</h6>
+        <ul class="root">
+            {% recursetree categories %}
+                <li>
+                    {{ node.name }}
+                    {% if not node.is_parent_node %}
+                        <ul class="children">
+                            {{ children }}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endrecursetree %}
+        </ul>
+        <h5><a href="/recipe/change/{{ recipe.slug }}">Change</a></h5>
+    {% else %}
+        Recipe does not exist.
+    {% endif %}
+{% endblock %}

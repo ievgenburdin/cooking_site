@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load mptt_tags %}
+
+{% block title_block %}
+    Article - {{ article.name }}
+{% endblock %}
+
+{% block body_block %}
+    {% if article %}
+        <br>
+        <h4>{{ article.name }}</h4>
+        <h6>About:</h6>
+        <p>{{ article.about}}</p><br>
+        <h6>Full article:</h6>
+        <p>{{ article.article}}</p><br>
+        <h6>Categories:</h6>
+        <ul class="root">
+            {% recursetree categories %}
+                <li>
+                    {{ node.name }}
+                    {% if not node.is_parent_node %}
+                        <ul class="children">
+                            {{ children }}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endrecursetree %}
+        </ul>
+        <br>
+        <h5><a href="/article/change/{{ article.slug }}">Change</a></h5>
+    {% else %}
+        Article does not exist.
+    {% endif %}
+{% endblock %}

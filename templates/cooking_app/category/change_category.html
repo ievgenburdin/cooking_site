@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title_block %}
+    Change category
+{% endblock %}
+
+{% block body_block %}
+
+    <form id="category_form" method="post" action="/category/change/{{ category.slug }}/">
+        {% csrf_token %}
+        <p>{{ errors }}</p>
+        <div class="form-group">
+            <label for="name">Name: </label>
+            <input id="name" class="form-control" type="text" name="name" value="{{ category.name }}">
+        </div>
+        <div class="form-group">
+            <label for="parent">Parent category: </label>
+            <select id="parent" class="form-control" name="parent">
+                <option value="">Create root Category</option>
+                {% for parent in categories %}
+                    {% if parent.name == category.parent.name %}
+                        <option selected value="{{ parent.name }}">{{ parent.name }}</option>
+                    {% else %}
+                        <option value="{{ parent.name }}">{{ parent.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <input class="form-control" type="submit" name="submit" value="Change">
+
+    </form>
+    <br>
+    <form id="category_form" method="post" action="/category/delete/">
+        {% csrf_token %}
+        <div class="form-group">
+            <input class="form-control" type="hidden" name="category_slug" value="{{ category.slug }}">
+            <input class="form-control" type="submit" name="submit" value="Delete">
+        </div>
+    </form>
+{% endblock %}

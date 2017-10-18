@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title_block %}
+    Recipes
+{% endblock %}
+
+{% block body_block %}
+    <h4>Recipes</h4>
+    <h5><a href="{% url 'create_recipe' %}">Create new recipe</a></h5>
+    <br>
+
+    {% if recipes %}
+        {% for recipe in recipes %}
+            <h5><a href="/recipe/show/{{ recipe.slug }}">{{ recipe.name }}</a></h5>
+
+        {% endfor %}
+    {% else %}
+        Here are no recipes.
+    {% endif %}
+{% endblock %}

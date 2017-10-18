@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title_block %}
+    Articles
+{% endblock %}
+
+{% block body_block %}
+    <h4>Articles</h4>
+    <h5><a href="{% url 'create_article' %}">Create new article</a></h5><br>
+    {% if articles %}
+        {% for article in articles %}
+            <h5><a href="/article/show/{{ article.slug }}">{{ article.name }}</a></h5>
+        {% endfor %}
+    {% else %}
+        Here are no articles.
+    {% endif %}
+{% endblock %}

@@ -27,7 +27,7 @@ def show_categories(request):
                    'page': 'categories'})
 
 
-def show_category(request, category_slug ):
+def show_category(request, category_slug):
     try:
         category = Category.objects.get(slug=category_slug)
     except ObjectDoesNotExist:
@@ -35,11 +35,11 @@ def show_category(request, category_slug ):
     try:
         articles = Article.objects.filter(category=category)
     except ObjectDoesNotExist:
-        articles=[]
+        articles = []
     try:
         recipes = Recipe.objects.filter(category=category)
     except ObjectDoesNotExist:
-        recipes=[]
+        recipes = []
     categories = category.get_ancestors(ascending=False, include_self=True)
     return render(request,
                   'cooking_app/category/show_category.html',
@@ -81,6 +81,8 @@ def create_category(request):
 
 
 def change_category(request, category_slug):
+    category = Category.objects.get(slug=category_slug)
+    categories = Category.objects.exclude(slug=category_slug)
     if request.method == "POST":
         new_category = CategoryForm()
         new_category.name = request.POST['name']
@@ -97,8 +99,6 @@ def change_category(request, category_slug):
             return HttpResponseRedirect('/categories/')
         else:
             print(new_category.errors)
-            category = Category.objects.get(slug=category_slug)
-            categories = Category.objects.all()
             return render(request,
                           'cooking_app/category/change_category.html',
                           {'categories': categories,
@@ -106,8 +106,7 @@ def change_category(request, category_slug):
                            'errors': new_category.errors,
                            'page': 'categories'})
     else:
-        category = Category.objects.get(slug=category_slug)
-        categories = Category.objects.all()
+
         return render(request,
                       'cooking_app/category/change_category.html',
                       {'categories': categories,
@@ -311,4 +310,3 @@ def delete_article(request):
             return HttpResponse("Object does not exist")
         return HttpResponseRedirect('/articles/')
     return HttpResponse(status=404)
-

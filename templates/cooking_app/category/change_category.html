@@ -16,21 +16,21 @@
         <div class="form-group">
             <label for="parent">Parent category: </label>
             <select id="parent" class="form-control" name="parent">
-                <option value="">Create root Category</option>
-                {% for parent in categories %}
-                    {% if parent.name == category.parent.name %}
-                        <option selected value="{{ parent.name }}">{{ parent.name }}</option>
-                    {% else %}
-                        <option value="{{ parent.name }}">{{ parent.name }}</option>
-                    {% endif %}
-                {% endfor %}
+                <option value="">Root Category</option>
+                    {% for parent in categories %}
+                        {% if parent.name == category.parent.name %}
+                            <option selected value="{{ parent.name }}">{{ parent.name }}</option>
+                        {% else %}
+                            <option value="{{ parent.name }}">{{ parent.name }}</option>
+                        {% endif %}
+                    {% endfor %}
             </select>
         </div>
         <input class="form-control" type="submit" name="submit" value="Change">
 
     </form>
     <br>
-    <form id="category_form" method="post" action="/category/delete/">
+    <form id="category_form" method="post" action="{% url 'delete_category' %}">
         {% csrf_token %}
         <div class="form-group">
             <input class="form-control" type="hidden" name="category_slug" value="{{ category.slug }}">

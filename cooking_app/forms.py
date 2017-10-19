@@ -18,6 +18,14 @@ class CategoryForm:
         return valid
 
     def unique_is_valid(self):
+        try:
+            Category.objects.get(name=self.name)
+            self.errors = "This name already exist"
+            return False
+        except ObjectDoesNotExist:
+            return True
+
+    def parent_is_valid(self):
         if self.parent_name == "":
             valid = True
         else:

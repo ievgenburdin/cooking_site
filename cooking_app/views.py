@@ -57,9 +57,13 @@ def create_category(request):
         new_category.name = request.POST['name']
         new_category.parent_name = request.POST['parent']
         if new_category.length_is_valid() and\
-                new_category.unique_is_valid():
-            parent = Category.objects.get(name=new_category.parent_name)
-            Category.objects.create(name=new_category.name, parent=parent)
+                new_category.unique_is_valid() and\
+                new_category.parent_is_valid():
+            if new_category.parent_name == "":
+                Category.objects.create(name=new_category.name)
+            else:
+                parent = Category.objects.get(name=new_category.parent_name)
+                Category.objects.create(name=new_category.name, parent=parent)
             return HttpResponseRedirect('/categories/')
         else:
             print(new_category.errors)
@@ -81,18 +85,24 @@ def change_category(request, category_slug):
         new_category = CategoryForm()
         new_category.name = request.POST['name']
         new_category.parent_name = request.POST['parent']
-        if new_category.length_is_valid():
+        if new_category.length_is_valid() and \
+                new_category.parent_is_valid():
             category = Category.objects.get(slug=category_slug)
             category.name = new_category.name
-            category.parent = Category.objects.get(name=new_category.parent_name)
+            if new_category.parent_name == "":
+                category.parent = None
+            else:
+                category.parent = Category.objects.get(name=new_category.parent_name)
             category.save()
             return HttpResponseRedirect('/categories/')
         else:
             print(new_category.errors)
+            category = Category.objects.get(slug=category_slug)
             categories = Category.objects.all()
             return render(request,
                           'cooking_app/category/change_category.html',
                           {'categories': categories,
+                           'category': category,
                            'errors': new_category.errors,
                            'page': 'categories'})
     else:

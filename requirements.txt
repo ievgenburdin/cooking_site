@@ -1,0 +1,4 @@
+Django==1.11
+django-mptt==0.8.7
+pytz==2017.2
+Unidecode==0.4.21

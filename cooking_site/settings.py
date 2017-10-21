@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # read on https://django-mptt.readthedocs.io/
     'mptt',
     'cooking_app.apps.CookingAppConfig',
+    'rest_app.apps.RestAppConfig',
 ]
 
 MIDDLEWARE = [

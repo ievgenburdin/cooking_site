@@ -3,5 +3,8 @@ from rest_app import views
 
 
 urlpatterns = [
-    url(r'^categories/$', views.get_category_by_id, name='get_category_by_id'),
+    url(r'^category/$', views.category, name='category'),
+    url(r'^get_content/$', views.get_content, name='get_content'),
+    url(r'^get_categories/$', views.get_categories, name='get_categories'),
+    url(r'^category_content/$', views.category_content, name='category_content')
 ]

@@ -1,3 +1,4 @@
+
 """
 Django settings for cooking_site project.
 
@@ -23,9 +24,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'k3qz%pb2l3zel_ir%s1-l$!2oll&8qzi506$3ud4wm6zp(=jd3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+#DEBUG = False
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+#ALLOWED_HOSTS = ['ievgen.pythonanywhere.com']
 
 
 # Application definition
@@ -118,6 +121,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+STATIC_ROOT = "/var/www/ievgen.pythonanywhere.com/static/"
 
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
